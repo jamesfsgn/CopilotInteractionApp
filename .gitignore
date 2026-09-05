@@ -1,0 +1,121 @@
+## Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Dd]ebug/
+[Rr]elease/
+[Dd]ebugPublic/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+build/
+bld/
+artifacts/
+publish/
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.iobj
+*.pch
+*.pdb
+*.ipdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.tlog
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+## Visual Studio cache, user-specific and telemetry files
+# These embed absolute paths (and therefore the local Windows user name),
+# machine details and indexed source. Never publish them.
+.vs/
+.vscode/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.VisualState.xml
+TestResult.xml
+[Bb]ackup*/
+UpgradeLog*.XML
+UpgradeLog*.htm
+ServiceFabricBackup/
+*.rptproj.rsuser
+*- [Bb]ackup.rdl
+
+## NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+
+## ReSharper / JetBrains
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+## Test results and coverage
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+coverage*.info
+
+## Credentials and local configuration - never commit
+# The app never writes secrets to the project folder, but these patterns guard
+# against accidentally adding a local config or exported credential.
+appsettings.*.local.json
+appsettings.Development.json
+secrets.json
+*.secrets.json
+settings.local.json
+*.pfx
+*.p12
+*.pem
+*.key
+*.cer
+*.publishsettings
+PublishProfiles/
+*.pubxml
+*.pubxml.user
+*.azurePubxml
+
+## Exported Copilot interaction data - contains real conversation content
+copilot-conversations-*.xlsx
+*.xlsx
+!docs/**/*.xlsx
+
+## OS noise
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
