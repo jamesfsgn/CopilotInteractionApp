@@ -98,6 +98,15 @@ namespace CopilotInteractionApp
             if (string.IsNullOrWhiteSpace(txtClientId.Text)) throw new ArgumentException("Client ID is required.");
             if (string.IsNullOrWhiteSpace(txtClientSecret.Text)) throw new ArgumentException("Client secret is required.");
 
+            DateTimeOffset? fromUtc = null;
+            DateTimeOffset? toUtc = null;
+            if (chkDateFilter.Checked)
+            {
+                var (from, to) = DateRangeFilter.BuildUtcBoundaries(dtpFrom.Value, dtpTo.Value);
+                fromUtc = from;
+                toUtc = to;
+            }
+
             return new InteractionQueryOptions
             {
                 TenantId = txtTenantId.Text.Trim(),
@@ -109,20 +118,10 @@ namespace CopilotInteractionApp
                 Top = (int)numTop.Value,
                 MaxItems = (int)numMaxItems.Value,
                 AppClass = SelectedAppClass(),
-                FromDateUtc = chkDateFilter.Checked ? FromBoundaryUtc() : null,
-                ToDateUtc = chkDateFilter.Checked ? ToBoundaryUtc() : null
+                FromDateUtc = fromUtc,
+                ToDateUtc = toUtc
             };
         }
-
-        /// <summary>
-        /// The API filters with 'createdDateTime gt {from} and createdDateTime lt {to}', so the
-        /// boundaries are widened by a moment to make the selected days fully inclusive.
-        /// </summary>
-        private DateTimeOffset FromBoundaryUtc() =>
-            new DateTimeOffset(dtpFrom.Value.Date, TimeSpan.Zero).AddSeconds(-1);
-
-        private DateTimeOffset ToBoundaryUtc() =>
-            new DateTimeOffset(dtpTo.Value.Date.AddDays(1), TimeSpan.Zero);
 
         private void UpdateDateControls()
         {

@@ -107,9 +107,24 @@ namespace CopilotInteractionApp.Services
     public sealed class GraphInteractionClient : IDisposable
     {
         private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
-        private readonly HttpClient _http = new() { Timeout = TimeSpan.FromMinutes(5) };
+        private readonly HttpClient _http;
+        private readonly Func<CancellationToken, Task<string>>? _tokenProvider;
         private ClientSecretCredential? _credential;
         private string? _credentialKey;
+
+        public GraphInteractionClient() : this(new HttpClientHandler(), tokenProvider: null)
+        {
+        }
+
+        /// <summary>
+        /// Test-only seam: substitutes a fake HTTP handler and, optionally, a fake token
+        /// provider so tests never make a real network call or need real Entra credentials.
+        /// </summary>
+        internal GraphInteractionClient(HttpMessageHandler handler, Func<CancellationToken, Task<string>>? tokenProvider)
+        {
+            _http = new HttpClient(handler) { Timeout = TimeSpan.FromMinutes(5) };
+            _tokenProvider = tokenProvider;
+        }
 
         /// <summary>
         /// Runs a full pull: acquires a token, resolves the user scope (a single user, or every
@@ -392,6 +407,11 @@ namespace CopilotInteractionApp.Services
 
         private async Task<string> GetTokenAsync(InteractionQueryOptions options, CancellationToken cancellationToken)
         {
+            if (_tokenProvider is not null)
+            {
+                return await _tokenProvider(cancellationToken).ConfigureAwait(false);
+            }
+
             var key = $"{options.TenantId}|{options.ClientId}|{options.ClientSecret.GetHashCode()}";
             if (_credential is null || _credentialKey != key)
             {
